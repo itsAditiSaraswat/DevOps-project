@@ -80,8 +80,63 @@ Create a folder spec. Create another folder unit within spec. Now, create a file
 ### 3.1 Creating the Terraform Dockerfile
 `vim terraform.Dockerfile`
 ![1](https://user-images.githubusercontent.com/102405945/215345670-a14cc7a9-1a38-443d-babc-d207b0a7062d.png)
-
 `docker build -t terraform .` <br>
 `docker build -t terraform . -f terraform.Dockerfile` <br>
 `docker run --rm --interactive --tty --entrypoint sh terraform` <br>
 ![2](https://user-images.githubusercontent.com/102405945/215345676-212cc641-562c-41ef-a414-02eb7afca560.png)
+
+### 3.2 Building and Testing a Terraform Docker image
+`docker build --tag terraform --file terraform.Dockerfile .` <br>
+`docker run --rm terraform` <br>
+![3](https://user-images.githubusercontent.com/102405945/215531365-58e35f58-b140-4b47-a79f-5fcfba7e6c20.png)
+
+### 3.3 Creating a Terraform Docker Compose service
+`vim docker-compose.yml` <br>
+`docker-compose build terraform` <br>
+`docker-compose run --rm terraform` <br>
+![4](https://user-images.githubusercontent.com/102405945/215531692-06a0095b-25a4-4dc9-b9f0-9c0b8f4e3026.png)
+![5](https://user-images.githubusercontent.com/102405945/215531709-8d3b391e-732d-43d9-936e-827a5d65417a.png)
+![6](https://user-images.githubusercontent.com/102405945/215531733-fea476b1-d932-4ec1-aeb7-04595721aef8.png)
+
+### 3.4 AWS deployment by writing Terraform code
+`vim main.tf`
+![7](https://user-images.githubusercontent.com/102405945/215531884-6c5a3bca-ae78-42ca-aeb9-7e5e2ed75573.png)
+
+### 3.5 Reviewing and Applying Terraform plan
+`docker-compose run --rm terraform init` <br>
+`vim docker-compose.yml` To add AWS access keys <br>
+`docker-compose run --rm terraform plan` <br>
+![8](https://user-images.githubusercontent.com/102405945/215532184-c2fef23a-bf70-4c3b-8ef8-7dd16f39fee9.png)
+![9](https://user-images.githubusercontent.com/102405945/215532206-a3221ee0-4279-4653-84af-591e0198a98c.png)
+![10](https://user-images.githubusercontent.com/102405945/215532230-734e5140-35a2-495c-a225-f9e13e8036ec.png)
+
+### 3.6 Deploying the website into AWS S3
+`docker-compose run --rm aws` <br>
+`docker-compose run --rm --entrypoint aws aws ec2 describe-instances` <br>
+`docker-compose run --rm --entrypoint aws aws s3 cp --recursive website/ s3://explorecalifornia.org` <br>
+`docker-compose run --rm terraform output` <br>
+![11](https://user-images.githubusercontent.com/102405945/215532579-3fe10115-b192-4711-8132-21dc9d9b56e1.png)
+![12](https://user-images.githubusercontent.com/102405945/215532600-6d2c629f-720d-4f95-971c-724a1cb07110.png)
+![13](https://user-images.githubusercontent.com/102405945/215532614-c6ea1ad2-2437-45ae-93e9-095a28e1a102.png)
+
+### 3.7 Writing integration test
+`vim page_spec.rb` <br>
+`docker-compose run --rm terraform plan` <br>
+`docker-compose run --rm terraform apply` <br>
+`vim docker-compose.yml` <br>
+![14](https://user-images.githubusercontent.com/102405945/215532914-d9322582-ab23-4781-9600-c1aa700edb4f.png)
+![15](https://user-images.githubusercontent.com/102405945/215532942-854c7fda-2d8b-4c58-bc64-28936ab69f92.png)
+![16](https://user-images.githubusercontent.com/102405945/215532975-ac99ac73-ff91-45bc-b6b0-0e65c6e505e4.png)
+![17](https://user-images.githubusercontent.com/102405945/215532996-b1041f95-3d88-4661-9e42-87b35374280e.png)
+
+### 3.8 Running integration test
+`docker-compose up -d selenium` <br>
+`docker-compose run --rm integration-tests` <br>
+`docker-compose run --rm aws aws s3 cp website/ s3://explorecalifornia.org --recursive` <br>
+`docker-compose run --rm aws aws s3 r website/ s3://explorecalifornia.org --recursive` <br>
+`docker-compose run --rm terraform destroy` <br>
+![18](https://user-images.githubusercontent.com/102405945/215533323-d5c4e4b4-f7b9-49b8-9258-39cc78fcf82e.png)
+![19](https://user-images.githubusercontent.com/102405945/215533390-0846a470-36d2-433a-be5a-112734e88049.png)
+![20](https://user-images.githubusercontent.com/102405945/215533456-cd31e89b-a0e2-4c72-a073-ba8b63d99734.png)
+![21](https://user-images.githubusercontent.com/102405945/215533496-1b9d5aa3-058c-4b7f-ad5f-b4a14471365a.png)
+![22](https://user-images.githubusercontent.com/102405945/215533512-6bcc5716-dfdb-4008-9b0e-211cc5b4a905.png)
