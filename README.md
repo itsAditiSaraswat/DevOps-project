@@ -1,3 +1,21 @@
+# Explore California
+*DevOps Project*
+
+---
+
+| &nbsp; | &nbsp; |
+| --- | ----------- |
+| **Objective and Approach** | - Bridge the gap between production and development by containerizing the website ‘Explore California’ with Docker and Docker Compose<br>- Unit and Integration testing using RSpec, Capybara and Selenium<br>- Rapidly deploy a working instance of the website into the cloud (AWS S3) using Terraform<br>- Build and deploy the website using CICD pipeline with Jenkins |
+| **Impact** | - All environments consistent using Docker/ Docker Compose</br>- Deploys into production automated via Terraform</br>- Production deploys 100% automated through CI|
+<br>
+
+**Primary Technology:** Docker, Docker Compose, RSpec, Capybara, Selenium, AWS S3, Terraform, Jenkins
+<br><br>
+
+
+<br><br>
+---
+
 ## 1. Testing Locally with Docker
 
 ### 1.1 Installing Docker
@@ -140,3 +158,35 @@ Create a folder spec. Create another folder unit within spec. Now, create a file
 ![20](https://user-images.githubusercontent.com/102405945/215533456-cd31e89b-a0e2-4c72-a073-ba8b63d99734.png)
 ![21](https://user-images.githubusercontent.com/102405945/215533496-1b9d5aa3-058c-4b7f-ad5f-b4a14471365a.png)
 ![22](https://user-images.githubusercontent.com/102405945/215533512-6bcc5716-dfdb-4008-9b0e-211cc5b4a905.png)
+
+
+
+## 4. CI/CD as Code with Jenkins
+
+### 4.1 Installing Jenkins on Docker
+`vim jenkins.Dockerfile` <br>
+`vim docker-compose.yml` <br>
+`docker-compose up jenkins` <br>
+![1](https://user-images.githubusercontent.com/102405945/215823999-4a8dfa81-300f-4e48-ba6c-94ff207a9a70.png)
+![2](https://user-images.githubusercontent.com/102405945/215824015-40939c00-e3e6-4552-b568-3900c52ede44.png)
+![3](https://user-images.githubusercontent.com/102405945/215824071-c0726c96-e7bc-4211-9627-3671f26b2edf.png)
+![4](https://user-images.githubusercontent.com/102405945/215824089-304f9d4d-615b-4dde-8cd2-6719b83005f2.png)
+![5](https://user-images.githubusercontent.com/102405945/215824128-b6d05230-da23-439b-803f-c5059ee3d7c4.png)
+
+### 4.2 Writing a Jenkinsfile for the app
+`vim jenkinsfile`
+![6](https://user-images.githubusercontent.com/102405945/215824147-327c8094-e17a-4550-95ad-34125de8a4d4.png)
+
+### 4.3 Using Jenkinsfile to deploy the app
+`git init` <br>
+`git checkout -b master` <br>
+`git add -A` <br>
+`git commit -m "Initialize repository"` <br>
+`docker-compose up jenkins` <br>
+![7](https://user-images.githubusercontent.com/102405945/215824251-266770a1-a707-4630-8f3c-6389192f0196.png)
+![8](https://user-images.githubusercontent.com/102405945/215824283-9818f1b8-aaa7-4bf1-b1d6-89534528b2c3.png)
+![9](https://user-images.githubusercontent.com/102405945/215824326-37294898-efa3-43cd-a3e3-dc49f881b49d.png)
+![10](https://user-images.githubusercontent.com/102405945/215824364-80f00e57-527a-4887-9fa6-824dfd213e4d.png)
+![11](https://user-images.githubusercontent.com/102405945/215824387-b367bdf7-cb25-42b3-87b0-4ea81dfb2ee1.png)
+![12](https://user-images.githubusercontent.com/102405945/215824423-3d9e7b4b-9915-403d-b749-7aaa243a346b.png)
+![13](https://user-images.githubusercontent.com/102405945/215824448-36406960-1b2d-4cbb-a15f-bb26863d9e3a.png)
